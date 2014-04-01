@@ -50,7 +50,7 @@ public class OrderDao {
 		
 		this.insertStmtOrder.setConsistencyLevel(ConsistencyLevel.QUORUM);
 		this.insertStmtProduct.setConsistencyLevel(ConsistencyLevel.QUORUM);
-		this.findCapacity.setConsistencyLevel(ConsistencyLevel.QUORUM);		
+		this.findCapacity.setConsistencyLevel(ConsistencyLevel.SERIAL);		
 	}
 
 	public void insertOrder(Order order){

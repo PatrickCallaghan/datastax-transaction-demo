@@ -42,8 +42,13 @@ public class Main {
 				+ " products and " + totalStock + " quantity in stock.");
 		
 		OrderDao dao = new OrderDao(contactPointsStr.split(","));
-		dao.initializeProductTable(NO_OF_PRODUCTS, totalStock);
-		
+				
+		if (System.getProperty("loadOnly") != null){
+			dao.initializeProductTable(NO_OF_PRODUCTS, totalStock);
+			return;
+		}else if(System.getProperty("load") != null){
+			dao.initializeProductTable(NO_OF_PRODUCTS, totalStock);
+		}
 		
 		// Create shared queue
 		BlockingQueue<Order> queueOrders = new ArrayBlockingQueue<Order>(1000);
@@ -63,9 +68,7 @@ public class Main {
 			sleep(1000);
 		}
 		timer.end();
-		logger.info("Transactions demo took " + timer.getTimeTakenSeconds() + " secs. Total Products sold : " + TOTAL_PRODUCTS_SOLD.get());
-
-		System.exit(0);
+		logger.info("Transactions demo took " + timer.getTimeTakenSeconds() + " secs. Total Products sold : " + TOTAL_PRODUCTS_SOLD.get());		
 	}
 
 	private void startProcessingOrders(BlockingQueue<Order> queueOrders, int noOfOrders) {
@@ -147,5 +150,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		new Main();
+		
+		System.exit(0);
 	}
 }

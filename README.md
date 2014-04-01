@@ -44,4 +44,23 @@ To remove the tables and the schema, run the following.
 
     mvn clean compile exec:java -Dexec.mainClass="com.datastax.demo.SchemaTeardown"
     
+## Testing Multiple clients from different JVMS
+
+A good test of the transaction demo is to create different clients. This allows you to test the behaviour as if the clients were different app/web tiers instead of just mutiple threads from one JVM.
+
+To do this, follow these steps.
+
+1. Set up the schema
+	mvn clean compile exec:java -Dexec.mainClass="com.datastax.demo.SchemaSetup"
     
+2. Load the products first 
+	mvn clean compile exec:java -Dexec.mainClass="com.datastax.transactions.Main" -DnoOfProducts=1 -DinStock=1000 -DloadOnly 
+	
+3. Create multiple terminal windows for as many clients as you wish to test and run (in each window)
+	mvn exec:java -Dexec.mainClass="com.datastax.transactions.Main" -DnoOfThreads=1 -DnoOfProducts=1 -DinStock=1000 -DnoOfOrders=1000
+	
+These will need to be run at the same time to ensure there is contention and each client gets some products. 
+
+In each of the processes, the total amount of successfully orders will be shown. They will add in the total no of in stock that was specified in the loading command (-DinStock).
+
+	
