@@ -43,6 +43,7 @@ public class Main {
 		
 		OrderDao dao = new OrderDao(contactPointsStr.split(","));
 				
+		//Are we loading only or loading and running order processor
 		if (System.getProperty("loadOnly") != null){
 			dao.initializeProductTable(NO_OF_PRODUCTS, totalStock);
 			return;

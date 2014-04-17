@@ -23,22 +23,22 @@ To create the a single node cluster with replication factor of 1 for standard lo
 
     mvn clean compile exec:java -Dexec.mainClass="com.datastax.demo.SchemaSetup"
 
-To run the insert
+To start the order processor, run
 
-    mvn clean compile exec:java -Dexec.mainClass="com.datastax.transactions.Main"
+    mvn clean compile exec:java -Dexec.mainClass="com.datastax.transactions.Main" -Dload=true
     
 The default is to use 3 threads but this can be changed by using the noOfThreads property. 
 
 An example of running this with 10 threads and some custom contact points would be 
 
-	mvn clean compile exec:java -Dexec.mainClass="com.datastax.transactions.Main" -DcontactPoints=cassandra1 -DnoOfThreads=10
+	mvn clean compile exec:java -Dexec.mainClass="com.datastax.transactions.Main" -Dload=true -DcontactPoints=cassandra1 -DnoOfThreads=10
 	
 Other properties that can be added are noOfProducts, inStock, noOfOrders
 
 Another example we may want to have 100 products each with 1000 in stock. We can then simulate 100,000 orders over 10 apps using threads.
 Some of these should fail as the product will be out of stock. 
 
-	mvn clean compile exec:java -Dexec.mainClass="com.datastax.transactions.Main" -DnoOfThreads=10 -DnoOfProducts=100 -DinStock=1000 DnoOfOrders=100000
+	mvn clean compile exec:java -Dexec.mainClass="com.datastax.transactions.Main" -Dload=true -DnoOfThreads=10 -DnoOfProducts=100 -DinStock=1000 -DnoOfOrders=100000
 	
 To remove the tables and the schema, run the following.
 
